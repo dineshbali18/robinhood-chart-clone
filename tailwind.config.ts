@@ -25,6 +25,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          glow: "hsl(var(--primary-glow))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -52,6 +53,11 @@ export default {
         },
         gain: "hsl(var(--gain))",
         loss: "hsl(var(--loss))",
+        chart: {
+          line: "hsl(var(--chart-line))",
+          start: "hsl(var(--chart-gradient-start))",
+          end: "hsl(var(--chart-gradient-end))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
