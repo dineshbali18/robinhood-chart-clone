@@ -141,33 +141,23 @@ export const RobinhoodChart = ({
   const padding = (maxValue - minValue) * 0.1;
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-6 animate-fade-in">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-gradient text-2xl font-semibold mb-1">{symbol}</h1>
-        <p className="text-muted-foreground text-sm">{companyName}</p>
-      </div>
-
-      {/* Price Display */}
-      <div className="mb-6 animate-slide-up">
-        <h2 className="text-foreground text-5xl font-bold tracking-tight mb-2">
-          {formatCurrency(currentValue)}
-        </h2>
-        <div className="flex items-center gap-2">
-          <span className={cn("text-lg font-medium", isPositive ? "text-gain" : "text-loss")}>
-            {isPositive ? "+" : ""}{formatCurrency(priceChange)}
-          </span>
-          <span className={cn("text-lg font-medium", isPositive ? "text-gain" : "text-loss")}>
-            ({formatPercentage(percentChange)})
-          </span>
-          <span className="text-muted-foreground text-sm">
-            {selectedRange === "1D" ? "Today" : `Past ${selectedRange.replace("1", "1 ").replace("3", "3 ")}`}
-          </span>
+    <div className="w-full max-w-3xl mx-auto p-4 animate-fade-in">
+      {/* Header - Compact for embedded use */}
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h1 className="text-gradient text-lg font-semibold">{symbol}</h1>
+          <p className="text-muted-foreground text-xs">{companyName}</p>
+        </div>
+        <div className="text-right">
+          <p className="text-foreground text-xl font-bold">{formatCurrency(currentValue)}</p>
+          <p className={`text-sm font-medium ${isPositive ? "text-gain" : "text-loss"}`}>
+            {isPositive ? "+" : ""}{formatPercentage(percentChange)}
+          </p>
         </div>
       </div>
 
       {/* Chart */}
-      <div className="h-80 w-full mb-6">
+      <div className="h-48 w-full mb-4">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
@@ -223,18 +213,16 @@ export const RobinhoodChart = ({
       </div>
 
       {/* Time Range Selector */}
-      <div className="flex justify-center gap-1 p-1 bg-secondary/50 rounded-full w-fit mx-auto">
+      <div className="flex justify-center gap-1 p-1 bg-card/50 backdrop-blur-sm rounded-xl border border-border/30 w-fit mx-auto mb-4">
         {timeRanges.map((range) => (
           <button
             key={range}
             onClick={() => setSelectedRange(range)}
             className={cn(
-              "px-5 py-2 rounded-full text-sm font-medium transition-all duration-200",
+              "px-4 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
               selectedRange === range
-                ? isPositive
-                  ? "bg-gain text-primary-foreground shadow-lg shadow-gain/25"
-                  : "bg-loss text-primary-foreground shadow-lg shadow-loss/25"
-                : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                ? "bg-gradient-to-r from-primary/30 to-primary-glow/30 text-foreground border border-primary/30"
+                : "text-muted-foreground hover:text-foreground"
             )}
           >
             {range}
@@ -242,17 +230,17 @@ export const RobinhoodChart = ({
         ))}
       </div>
 
-      {/* Stats Row */}
-      <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6">
+      {/* Stats Row - Compact */}
+      <div className="grid grid-cols-4 gap-2">
         {[
           { label: "Open", value: formatCurrency(startValue) },
           { label: "High", value: formatCurrency(maxValue) },
           { label: "Low", value: formatCurrency(minValue) },
           { label: "Close", value: formatCurrency(endValue) },
         ].map((stat) => (
-          <div key={stat.label} className="text-center md:text-left">
-            <p className="text-muted-foreground text-sm mb-1">{stat.label}</p>
-            <p className="text-foreground font-semibold">{stat.value}</p>
+          <div key={stat.label} className="text-center p-2 rounded-xl bg-card/30 border border-border/20">
+            <p className="text-muted-foreground text-[10px] uppercase tracking-wider mb-0.5">{stat.label}</p>
+            <p className="text-foreground text-xs font-semibold">{stat.value}</p>
           </div>
         ))}
       </div>
