@@ -87,7 +87,7 @@ interface CustomTooltipProps {
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-card/90 backdrop-blur-sm border border-border rounded-lg px-3 py-2 shadow-xl">
+      <div className="bg-card/90 backdrop-blur-md border border-primary/30 rounded-xl px-4 py-3 shadow-glow">
         <p className="text-foreground font-semibold text-lg">
           {formatCurrency(payload[0].value)}
         </p>
@@ -119,7 +119,9 @@ export const RobinhoodChart = ({
   const percentChange = ((currentValue - startValue) / startValue) * 100;
   const isPositive = priceChange >= 0;
 
-  const chartColor = isPositive ? "#00C805" : "#FF5000";
+  // Violet theme colors
+  const chartColor = isPositive ? "hsl(270, 100%, 65%)" : "hsl(0, 72%, 51%)";
+  const glowColor = isPositive ? "hsl(280, 100%, 75%)" : "hsl(0, 72%, 51%)";
   const gradientId = "chartGradient";
 
   const timeRanges: TimeRange[] = ["1D", "1W", "1M", "3M", "1Y", "ALL"];
@@ -142,7 +144,7 @@ export const RobinhoodChart = ({
     <div className="w-full max-w-3xl mx-auto p-6 animate-fade-in">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-foreground text-2xl font-semibold mb-1">{symbol}</h1>
+        <h1 className="text-gradient text-2xl font-semibold mb-1">{symbol}</h1>
         <p className="text-muted-foreground text-sm">{companyName}</p>
       </div>
 
