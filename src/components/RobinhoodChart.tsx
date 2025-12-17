@@ -119,9 +119,9 @@ export const RobinhoodChart = ({
   const percentChange = ((currentValue - startValue) / startValue) * 100;
   const isPositive = priceChange >= 0;
 
-  // Violet theme colors
-  const chartColor = isPositive ? "hsl(270, 100%, 65%)" : "hsl(0, 72%, 51%)";
-  const glowColor = isPositive ? "hsl(280, 100%, 75%)" : "hsl(0, 72%, 51%)";
+  // Pale violet theme colors
+  const chartColor = isPositive ? "hsl(270, 40%, 65%)" : "hsl(0, 65%, 55%)";
+  const glowColor = isPositive ? "hsl(275, 50%, 78%)" : "hsl(0, 65%, 55%)";
   const gradientId = "chartGradient";
 
   const timeRanges: TimeRange[] = ["1D", "1W", "1M", "3M", "1Y", "ALL"];
