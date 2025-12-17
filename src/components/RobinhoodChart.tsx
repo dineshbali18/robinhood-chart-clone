@@ -9,6 +9,7 @@ import {
   ReferenceLine,
 } from "recharts";
 import { cn } from "@/lib/utils";
+import { TrendingUp, TrendingDown, ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 type TimeRange = "1D" | "1W" | "1M" | "3M" | "1Y" | "ALL";
 
@@ -18,7 +19,6 @@ interface DataPoint {
   timestamp: number;
 }
 
-// Generate realistic stock data
 const generateData = (range: TimeRange): DataPoint[] => {
   const now = Date.now();
   const points: DataPoint[] = [];
@@ -35,8 +35,6 @@ const generateData = (range: TimeRange): DataPoint[] => {
 
   const config = configs[range];
   const startTime = now - config.count * config.interval;
-  
-  // Starting value varies by range
   baseValue = range === "ALL" ? 45 : range === "1Y" ? 120 : range === "3M" ? 165 : 180;
 
   for (let i = 0; i < config.count; i++) {
@@ -87,8 +85,8 @@ interface CustomTooltipProps {
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-card/90 backdrop-blur-md border border-primary/30 rounded-xl px-4 py-3 shadow-glow">
-        <p className="text-foreground font-semibold text-lg">
+      <div className="bg-card/95 backdrop-blur-xl border border-border/60 rounded-2xl px-4 py-3 shadow-lg-theme">
+        <p className="text-foreground font-semibold text-lg font-display">
           {formatCurrency(payload[0].value)}
         </p>
         <p className="text-muted-foreground text-sm">{label}</p>
@@ -107,7 +105,7 @@ export const RobinhoodChart = ({
   symbol = "AAPL", 
   companyName = "Apple Inc." 
 }: RobinhoodChartProps) => {
-  const [selectedRange, setSelectedRange] = useState<TimeRange>("1D");
+  const [selectedRange, setSelectedRange] = useState<TimeRange>("1M");
   const [activeValue, setActiveValue] = useState<number | null>(null);
 
   const data = useMemo(() => generateData(selectedRange), [selectedRange]);
@@ -119,9 +117,7 @@ export const RobinhoodChart = ({
   const percentChange = ((currentValue - startValue) / startValue) * 100;
   const isPositive = priceChange >= 0;
 
-  // Pale violet theme colors
-  const chartColor = isPositive ? "hsl(270, 40%, 65%)" : "hsl(0, 65%, 55%)";
-  const glowColor = isPositive ? "hsl(275, 50%, 78%)" : "hsl(0, 65%, 55%)";
+  const chartColor = isPositive ? "hsl(142, 72%, 42%)" : "hsl(0, 72%, 51%)";
   const gradientId = "chartGradient";
 
   const timeRanges: TimeRange[] = ["1D", "1W", "1M", "3M", "1Y", "ALL"];
@@ -141,118 +137,142 @@ export const RobinhoodChart = ({
   const padding = (maxValue - minValue) * 0.1;
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-6 animate-fade-in">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-gradient text-2xl font-semibold mb-1">{symbol}</h1>
-        <p className="text-muted-foreground text-sm">{companyName}</p>
-      </div>
+    <div className="w-full max-w-3xl mx-auto pb-32">
+      {/* Stock Card */}
+      <div className="bg-card rounded-3xl shadow-lg-theme p-6 mb-4 animate-fade-in">
+        {/* Header with symbol */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shadow-sm-theme">
+              <span className="text-primary font-bold text-lg">{symbol.charAt(0)}</span>
+            </div>
+            <div>
+              <h2 className="text-foreground text-lg font-semibold">{symbol}</h2>
+              <p className="text-muted-foreground text-sm">{companyName}</p>
+            </div>
+          </div>
+          <div className={cn(
+            "flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-medium",
+            isPositive 
+              ? "bg-gain/10 text-gain" 
+              : "bg-loss/10 text-loss"
+          )}>
+            {isPositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+            {formatPercentage(percentChange)}
+          </div>
+        </div>
 
-      {/* Price Display */}
-      <div className="mb-6 animate-slide-up">
-        <h2 className="text-foreground text-5xl font-bold tracking-tight mb-2">
-          {formatCurrency(currentValue)}
-        </h2>
-        <div className="flex items-center gap-2">
-          <span className={cn("text-lg font-medium", isPositive ? "text-gain" : "text-loss")}>
-            {isPositive ? "+" : ""}{formatCurrency(priceChange)}
-          </span>
-          <span className={cn("text-lg font-medium", isPositive ? "text-gain" : "text-loss")}>
-            ({formatPercentage(percentChange)})
-          </span>
-          <span className="text-muted-foreground text-sm">
-            {selectedRange === "1D" ? "Today" : `Past ${selectedRange.replace("1", "1 ").replace("3", "3 ")}`}
-          </span>
+        {/* Price Display */}
+        <div className="mb-8">
+          <h3 className="text-foreground text-4xl font-bold font-display tracking-tight mb-1">
+            {formatCurrency(currentValue)}
+          </h3>
+          <div className="flex items-center gap-2">
+            <span className={cn("font-medium", isPositive ? "text-gain" : "text-loss")}>
+              {isPositive ? "+" : ""}{formatCurrency(Math.abs(priceChange))}
+            </span>
+            <span className="text-muted-foreground text-sm">
+              {selectedRange === "1D" ? "Today" : `Past ${selectedRange}`}
+            </span>
+          </div>
+        </div>
+
+        {/* Chart */}
+        <div className="h-52 w-full mb-6 -mx-2">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+              data={data}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+            >
+              <defs>
+                <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={chartColor} stopOpacity={0.25} />
+                  <stop offset="100%" stopColor={chartColor} stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis
+                dataKey="time"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 11 }}
+                tickMargin={12}
+                interval="preserveStartEnd"
+                minTickGap={50}
+              />
+              <YAxis
+                domain={[minValue - padding, maxValue + padding]}
+                hide
+              />
+              <ReferenceLine
+                y={startValue}
+                stroke="hsl(var(--border))"
+                strokeDasharray="3 3"
+                strokeOpacity={0.6}
+              />
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{
+                  stroke: chartColor,
+                  strokeWidth: 1,
+                  strokeDasharray: "4 4",
+                }}
+              />
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke={chartColor}
+                strokeWidth={2.5}
+                fill={`url(#${gradientId})`}
+                animationDuration={600}
+                animationEasing="ease-out"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Time Range Selector */}
+        <div className="flex justify-between bg-muted/50 rounded-2xl p-1.5">
+          {timeRanges.map((range) => (
+            <button
+              key={range}
+              onClick={() => setSelectedRange(range)}
+              className={cn(
+                "flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300",
+                selectedRange === range
+                  ? "bg-card text-foreground shadow-md-theme"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {range}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Chart */}
-      <div className="h-80 w-full mb-6">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={data}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={chartColor} stopOpacity={0.3} />
-                <stop offset="50%" stopColor={chartColor} stopOpacity={0.1} />
-                <stop offset="100%" stopColor={chartColor} stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <XAxis
-              dataKey="time"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-              tickMargin={16}
-              interval="preserveStartEnd"
-              minTickGap={60}
-            />
-            <YAxis
-              domain={[minValue - padding, maxValue + padding]}
-              hide
-            />
-            <ReferenceLine
-              y={startValue}
-              stroke="hsl(var(--border))"
-              strokeDasharray="4 4"
-              strokeOpacity={0.5}
-            />
-            <Tooltip
-              content={<CustomTooltip />}
-              cursor={{
-                stroke: chartColor,
-                strokeWidth: 1,
-                strokeDasharray: "4 4",
-              }}
-            />
-            <Area
-              type="monotone"
-              dataKey="value"
-              stroke={chartColor}
-              strokeWidth={2}
-              fill={`url(#${gradientId})`}
-              animationDuration={750}
-              animationEasing="ease-out"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-
-      {/* Time Range Selector */}
-      <div className="flex justify-center gap-1 p-1 bg-secondary/50 rounded-full w-fit mx-auto">
-        {timeRanges.map((range) => (
-          <button
-            key={range}
-            onClick={() => setSelectedRange(range)}
-            className={cn(
-              "px-5 py-2 rounded-full text-sm font-medium transition-all duration-200",
-              selectedRange === range
-                ? isPositive
-                  ? "bg-gain text-primary-foreground shadow-lg shadow-gain/25"
-                  : "bg-loss text-primary-foreground shadow-lg shadow-loss/25"
-                : "text-muted-foreground hover:text-foreground hover:bg-accent"
-            )}
-          >
-            {range}
-          </button>
-        ))}
-      </div>
-
-      {/* Stats Row */}
-      <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-2 gap-3 px-1">
         {[
-          { label: "Open", value: formatCurrency(startValue) },
-          { label: "High", value: formatCurrency(maxValue) },
-          { label: "Low", value: formatCurrency(minValue) },
-          { label: "Close", value: formatCurrency(endValue) },
-        ].map((stat) => (
-          <div key={stat.label} className="text-center md:text-left">
-            <p className="text-muted-foreground text-sm mb-1">{stat.label}</p>
-            <p className="text-foreground font-semibold">{stat.value}</p>
+          { label: "Open", value: startValue, icon: TrendingUp },
+          { label: "High", value: maxValue, icon: TrendingUp },
+          { label: "Low", value: minValue, icon: TrendingDown },
+          { label: "Close", value: endValue, icon: TrendingDown },
+        ].map((stat, index) => (
+          <div 
+            key={stat.label} 
+            className="bg-card rounded-2xl p-4 shadow-sm-theme animate-fade-in"
+            style={{ animationDelay: `${index * 50}ms` }}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                <stat.icon className="w-4 h-4 text-primary" />
+              </div>
+              <span className="text-muted-foreground text-sm font-medium">{stat.label}</span>
+            </div>
+            <p className="text-foreground text-lg font-semibold font-display">
+              {formatCurrency(stat.value)}
+            </p>
           </div>
         ))}
       </div>
