@@ -2,69 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 270 25% 20%;
+    --background: 250 20% 98%;
+    --foreground: 250 25% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 270 25% 20%;
+    --card-foreground: 250 25% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 270 25% 20%;
+    --popover-foreground: 250 25% 10%;
 
-    --primary: 270 40% 65%;
+    --primary: 262 60% 58%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 275 50% 78%;
+    --primary-glow: 268 80% 72%;
+    --primary-muted: 262 40% 85%;
 
-    --secondary: 270 25% 96%;
-    --secondary-foreground: 270 25% 30%;
+    --secondary: 250 30% 96%;
+    --secondary-foreground: 250 20% 25%;
 
-    --muted: 270 20% 94%;
-    --muted-foreground: 270 15% 50%;
+    --muted: 250 15% 92%;
+    --muted-foreground: 250 10% 45%;
 
-    --accent: 275 30% 92%;
-    --accent-foreground: 270 30% 35%;
+    --accent: 262 25% 94%;
+    --accent-foreground: 262 40% 40%;
 
-    --destructive: 0 70% 55%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 270 20% 90%;
-    --input: 270 20% 92%;
-    --ring: 270 40% 65%;
+    --border: 250 20% 92%;
+    --input: 250 20% 94%;
+    --ring: 262 60% 58%;
 
-    --radius: 1rem;
+    --radius: 1.25rem;
 
-    /* Radiant gradient tokens - soft pale violet */
-    --gradient-radiant: radial-gradient(ellipse at top, hsl(270 45% 92% / 0.8), transparent 60%),
-                        radial-gradient(ellipse at bottom right, hsl(275 50% 94% / 0.6), transparent 50%);
-    --gradient-glow: linear-gradient(135deg, hsl(270 40% 65%), hsl(280 45% 75%));
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(270 25% 98%));
+    /* Premium gradient tokens */
+    --gradient-radiant: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, hsl(262 80% 92% / 0.5), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, hsl(280 60% 94% / 0.4), transparent);
+    --gradient-glow: linear-gradient(135deg, hsl(262 60% 58%), hsl(280 65% 65%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100% / 0.9), hsl(0 0% 100% / 0.7));
+    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.6), hsl(0 0% 100% / 0.3));
 
-    /* Chart colors - pale violet theme */
-    --gain: 270 40% 65%;
-    --loss: 0 65% 55%;
-    --gain-muted: 270 35% 75%;
-    --loss-muted: 0 50% 65%;
+    /* Chart colors */
+    --gain: 142 72% 42%;
+    --loss: 0 72% 51%;
+    --gain-muted: 142 50% 65%;
+    --loss-muted: 0 50% 70%;
 
-    --chart-line: 270 40% 65%;
-    --chart-gradient-start: 275 50% 78%;
-    --chart-gradient-end: 270 30% 95%;
+    --chart-line: 262 60% 58%;
+    --chart-gradient-start: 268 80% 72%;
+    --chart-gradient-end: 262 30% 96%;
 
-    /* Glow effects - softer */
-    --shadow-glow: 0 0 40px hsl(270 40% 65% / 0.15);
-    --shadow-radiant: 0 0 80px hsl(275 45% 75% / 0.1);
+    /* Premium shadows */
+    --shadow-sm: 0 2px 8px hsl(262 30% 30% / 0.04);
+    --shadow-md: 0 4px 24px hsl(262 30% 30% / 0.08);
+    --shadow-lg: 0 8px 40px hsl(262 30% 30% / 0.12);
+    --shadow-glow: 0 0 60px hsl(262 60% 58% / 0.15);
+    --shadow-glow-strong: 0 4px 30px hsl(262 60% 58% / 0.25);
 
-    --sidebar-background: 270 20% 98%;
-    --sidebar-foreground: 270 25% 20%;
-    --sidebar-primary: 270 40% 65%;
+    --sidebar-background: 250 20% 98%;
+    --sidebar-foreground: 250 25% 10%;
+    --sidebar-primary: 262 60% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 270 25% 94%;
-    --sidebar-accent-foreground: 270 25% 30%;
-    --sidebar-border: 270 20% 90%;
-    --sidebar-ring: 270 40% 65%;
+    --sidebar-accent: 262 25% 94%;
+    --sidebar-accent-foreground: 262 40% 40%;
+    --sidebar-border: 250 20% 92%;
+    --sidebar-ring: 262 60% 58%;
   }
 }
 
@@ -74,8 +80,10 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -104,12 +112,36 @@
     background: var(--gradient-glow);
   }
 
+  .bg-glass {
+    background: var(--gradient-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .bg-glass-card {
+    background: var(--gradient-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .shadow-sm-theme {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .shadow-md-theme {
+    box-shadow: var(--shadow-md);
+  }
+
+  .shadow-lg-theme {
+    box-shadow: var(--shadow-lg);
+  }
+
   .shadow-glow {
     box-shadow: var(--shadow-glow);
   }
 
-  .shadow-radiant {
-    box-shadow: var(--shadow-radiant);
+  .shadow-glow-strong {
+    box-shadow: var(--shadow-glow-strong);
   }
 
   .text-gradient {
@@ -117,5 +149,16 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Premium number styling */
+  .font-display {
+    font-feature-settings: "tnum" on, "lnum" on;
+    letter-spacing: -0.02em;
+  }
+
+  /* Smooth transitions */
+  .transition-premium {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
