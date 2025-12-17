@@ -6,65 +6,65 @@
 
 @layer base {
   :root {
-    --background: 270 50% 3%;
-    --foreground: 270 20% 98%;
+    --background: 0 0% 100%;
+    --foreground: 270 25% 20%;
 
-    --card: 270 40% 8%;
-    --card-foreground: 270 20% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 270 25% 20%;
 
-    --popover: 270 40% 8%;
-    --popover-foreground: 270 20% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 270 25% 20%;
 
-    --primary: 270 100% 65%;
-    --primary-foreground: 270 20% 98%;
-    --primary-glow: 280 100% 75%;
+    --primary: 270 40% 65%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 275 50% 78%;
 
-    --secondary: 270 30% 15%;
-    --secondary-foreground: 270 20% 98%;
+    --secondary: 270 25% 96%;
+    --secondary-foreground: 270 25% 30%;
 
-    --muted: 270 20% 18%;
-    --muted-foreground: 270 15% 55%;
+    --muted: 270 20% 94%;
+    --muted-foreground: 270 15% 50%;
 
-    --accent: 280 60% 25%;
-    --accent-foreground: 270 20% 98%;
+    --accent: 275 30% 92%;
+    --accent-foreground: 270 30% 35%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 270 30% 20%;
-    --input: 270 30% 15%;
-    --ring: 270 100% 65%;
+    --border: 270 20% 90%;
+    --input: 270 20% 92%;
+    --ring: 270 40% 65%;
 
     --radius: 1rem;
 
-    /* Radiant gradient tokens */
-    --gradient-radiant: radial-gradient(ellipse at top, hsl(280 100% 25% / 0.4), transparent 50%),
-                        radial-gradient(ellipse at bottom, hsl(270 100% 15% / 0.3), transparent 50%);
-    --gradient-glow: linear-gradient(135deg, hsl(270 100% 65%), hsl(300 100% 60%));
-    --gradient-subtle: linear-gradient(180deg, hsl(270 40% 8%), hsl(270 50% 3%));
+    /* Radiant gradient tokens - soft pale violet */
+    --gradient-radiant: radial-gradient(ellipse at top, hsl(270 45% 92% / 0.8), transparent 60%),
+                        radial-gradient(ellipse at bottom right, hsl(275 50% 94% / 0.6), transparent 50%);
+    --gradient-glow: linear-gradient(135deg, hsl(270 40% 65%), hsl(280 45% 75%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(270 25% 98%));
 
-    /* Chart colors - violet theme */
-    --gain: 270 100% 65%;
-    --loss: 0 72% 51%;
-    --gain-muted: 280 80% 50%;
-    --loss-muted: 0 60% 45%;
+    /* Chart colors - pale violet theme */
+    --gain: 270 40% 65%;
+    --loss: 0 65% 55%;
+    --gain-muted: 270 35% 75%;
+    --loss-muted: 0 50% 65%;
 
-    --chart-line: 270 100% 65%;
-    --chart-gradient-start: 280 100% 70%;
-    --chart-gradient-end: 270 100% 50%;
+    --chart-line: 270 40% 65%;
+    --chart-gradient-start: 275 50% 78%;
+    --chart-gradient-end: 270 30% 95%;
 
-    /* Glow effects */
-    --shadow-glow: 0 0 60px hsl(270 100% 65% / 0.3);
-    --shadow-radiant: 0 0 100px hsl(280 100% 60% / 0.2);
+    /* Glow effects - softer */
+    --shadow-glow: 0 0 40px hsl(270 40% 65% / 0.15);
+    --shadow-radiant: 0 0 80px hsl(275 45% 75% / 0.1);
 
-    --sidebar-background: 270 50% 5%;
-    --sidebar-foreground: 270 20% 98%;
-    --sidebar-primary: 270 100% 65%;
-    --sidebar-primary-foreground: 270 20% 98%;
-    --sidebar-accent: 270 30% 15%;
-    --sidebar-accent-foreground: 270 20% 98%;
-    --sidebar-border: 270 30% 20%;
-    --sidebar-ring: 270 100% 65%;
+    --sidebar-background: 270 20% 98%;
+    --sidebar-foreground: 270 25% 20%;
+    --sidebar-primary: 270 40% 65%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 270 25% 94%;
+    --sidebar-accent-foreground: 270 25% 30%;
+    --sidebar-border: 270 20% 90%;
+    --sidebar-ring: 270 40% 65%;
   }
 }
 
